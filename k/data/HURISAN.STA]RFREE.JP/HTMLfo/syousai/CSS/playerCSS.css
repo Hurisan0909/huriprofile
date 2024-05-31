@@ -1,0 +1,28 @@
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+    body{
+        color:#fff;
+        background-color:	#202020;
+    }
+    h1{
+        color: #fff;
+    }
+    .btn {
+    padding: 10px 30px;
+    background: black;
+    color: #ffffff;
+}
+.btn:hover {
+    opacity: 0.7;
+}
+.btn1 {
+    padding: 10px 30px;
+    background: red;
+    color: #ffffff;
+}
+.btn1:hover {
+    opacity: 0.7;
+}

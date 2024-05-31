@@ -1,0 +1,23 @@
+.center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    }
+    body{
+        color:#fff;
+        background-color: #222222;
+    }
+    .btn {
+        padding: 10px 30px;
+        background: #0066FF;
+        color: #ffffff;
+    }
+    .btn:hover {
+        opacity: 0.7;
+    }
+    .aka{
+        color: red;
+    }
+    a:visited {
+        color: #00FFFF;
+        }

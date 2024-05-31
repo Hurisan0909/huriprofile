@@ -1,0 +1,89 @@
+
+
+body{
+    background-color: #77F9C3;
+}
+
+#myInput {
+      background-image: url('ic/icon.png'); /* 検索アイコンを追加 */
+      background-position: 12px 12px; /* アイコンの位置 */
+      background-repeat: no-repeat; /* アイコン画像を繰り返さない */
+      width: 50%; /* 全幅 */
+      font-size: 16px; /* フォントサイズを大きく */
+      padding: 15px 30px 20px 40px; /* 余白を追加 */
+      border: 1px solid #ddd; /* グレーのボーダーを追加 */
+      margin-bottom: 12px; /* 入力欄の下にスペースを追加 */
+    }
+    
+    #myUL {
+      list-style-type: none; /* リストのデフォルトスタイルを削除 */
+        padding: 0;
+        margin: 0;
+    }
+    
+    ul#myUL li {
+        padding: 1;
+    }
+    
+    #myUL li a {
+      border: 1px solid #ddd; /* リンクにボーダーを追加 */
+      margin-top: -1px; /* 二重ボーダーを防止 */
+      background-color: #eee; /* グレーの背景色 */
+      padding: 15px; /* 余白を追加 */
+      text-decoration: none; /* デフォルトの下線を削除 */
+      font-size: 18px; /* フォントサイズを大きく */
+      color: black; /* 黒のテキストカラー */
+      display: block; /* ブロック要素にしてリスト全体を埋める */
+    }
+    
+    #myUL li a:hover:not(.header) {
+      background-color: #c8e4ff; /* ホバーエフェクトを追加 */
+    }
+    
+    button {
+        padding: 17px 40px;
+        border-radius: 50px;
+        cursor: pointer;
+        border: 0;
+        background-color: white;
+        box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        font-size: 15px;
+        transition: all 0.5s ease;
+    }
+    
+    button:hover {
+        letter-spacing: 3px;
+        background-color: hsl(261deg 80% 48%);
+        color: hsl(0, 0%, 100%);
+        box-shadow: rgb(93 24 220) 0px 7px 29px 0px;
+    }
+    
+    button:active {
+        letter-spacing: 3px;
+        background-color: hsl(261deg 80% 48%);
+        color: hsl(0, 0%, 100%);
+        box-shadow: rgb(93 24 220) 0px 0px 0px 0px;
+        transform: translateY(10px);
+        transition: 100ms;
+    }
+    
+    header{
+      color: blue;
+      background-color: #00ECFF;
+      padding: 0.5em;
+      text-align: center;
+      
+      
+    }
+    footer {
+        background-color: #17F9AD;
+        color: #000;
+        font-weight: 1010;
+        padding: 5px 10px;
+        text-align: center;
+        bottom: 0;
+        width: 98%;
+        /*position: fixed*/
+}

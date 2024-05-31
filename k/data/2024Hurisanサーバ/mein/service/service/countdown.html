@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>20##年カウントダウンサイト</title>
+    <style>
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 30px;
+            padding: 50px;
+            background-color: #000;
+        }
+
+        #clock {
+            font-size: 80px;
+            color: #fff;
+        }
+
+        #date {
+            font-size: 40px;
+            color: #fff;
+        }
+
+        #countdown {
+            font-size: 30px;
+            color: #fff;
+        }
+
+        .br{
+            color: #fff;
+            font-size: 100px;
+        }
+
+        .p{
+            font-size: 80px
+        }
+    </style>
+</head>
+<body>
+    <hr>
+    <p style="font-size: 30px; color: #fff;">現在時間(JST)</p>
+    <div id="clock"></div>
+    <div id="date"></div>
+    <hr>
+    <p style="color: red;font-size: 30px;">2024年カウントダウン</p>
+    <div id="countdown"></div>
+<hr>
+
+    <p style="color: #fff;font-size: 10px;">Design is @freedomhuri</p>
+    <p style="color: #fff;font-size: 10px;">By System is chatGPT</p>
+<hr>
+    <script>
+        function updateClock() {
+            var now = new Date();
+            var hours = now.getHours();
+            var minutes = now.getMinutes();
+            var seconds = now.getSeconds();
+
+            hours = (hours < 10) ? "0" + hours : hours;
+            minutes = (minutes < 10) ? "0" + minutes : minutes;
+            seconds = (seconds < 10) ? "0" + seconds : seconds;
+
+            var timeString = hours + ":" + minutes + ":" + seconds;
+            document.getElementById("clock").innerHTML = timeString;
+
+            var dateString = now.toLocaleDateString('ja-JP', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            document.getElementById("date").innerHTML = dateString;
+        }
+
+        // 初回表示
+        updateClock();
+
+        // 1秒ごとに更新
+        setInterval(updateClock, 1000);
+
+
+
+          // ターゲットの日時を設定 (2024年1月1日)
+    const targetDate = new Date("January 1, 2025 00:00:00").getTime();
+
+// タイマーの更新間隔 (1秒)
+const updateInterval = 1000;
+
+// タイマーの更新関数
+function updateTimer() {
+    const currentDate = new Date().getTime();
+    const timeDifference = targetDate - currentDate;
+
+    // タイマーが終了した場合
+    if (timeDifference <= 0) {
+        document.getElementById("countdown").innerHTML = "Happy New Year!";
+    } else {
+        // 日時の計算
+        const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+        // タイマーの表示
+        document.getElementById("countdown").innerHTML = `${days}日 ${hours}時間 ${minutes}分 ${seconds}秒`;
+    }
+}
+
+// 初回の更新を行う
+updateTimer();
+
+// タイマーの定期的な更新
+setInterval(updateTimer, updateInterval);
+    </script>
+</body>
+</html>

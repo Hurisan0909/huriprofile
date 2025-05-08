@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>フリさんのプロフィール</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="img/favicon-16x16.png" type="image/x-icon">
+</head>
+<body>
+    <!-- test -->
+    <!-- 言語切り替えスイッチ -->
+<div class="language-switcher">
+    <div class="container language-switcher-container">
+        <div class="current-language">
+            <span class="lang-icon">🇯🇵</span>
+            <span class="lang-text">日本語</span>
+        </div>
+         <div class="language-options">
+            <!-- <a href="ENindex.html" class="lang-option">
+                <span class="lang-icon">🇺🇸</span>
+                <span class="lang-text">English</span>
+            </a>
+            <a href="KOindex.html" class="lang-option">
+                <span class="lang-icon">🇰🇷</span>
+                <span class="lang-text">한국어</span>
+            </a>
+            <a href="ZHindex.html" class="lang-option">
+                <span class="lang-icon">🇨🇳</span>
+                <span class="lang-text">简体中文</span>
+            </a> -->
+        </div> 
+    </div>
+</div>
+    <!-- ヘッダー -->
+    <header class="header">
+        <div class="container header-content">
+            <div class="profile-avatar pulse">
+                <img src="./img/logo.png" alt="プロフィール画像">
+            </div>
+            <h1 class="gamer-tag">FreedomHuri</h1>
+            <p class="gamer-title">底辺エンジニア / 駆け出しエンジニア</p>
+        </div>
+    </header>
+    
+    <!-- ナビゲーション -->
+    <nav class="nav">
+        <ul>
+            <li><a href="#profile"><i class="fas fa-user"></i> プロフィール</a></li>
+            <li><a href="#games"><i class="fas fa-gamepad"></i> ゲーム</a></li>
+            <li><a href="#companies"><i class="fas fa-building"></i> 企業ランキング</a></li>
+            <li><a href="#devices"><i class="fas fa-desktop"></i> デバイス</a></li>
+            <li><a href="#social"><i class="fas fa-share-alt"></i> SNS/Discord</a></li>
+            <li><a href="#trash"><i class="fas fa-download"></i> ゴミ置き場</a></li>
+        </ul>
+    </nav>
+    
+    <!-- メインコンテンツ -->
+    <main>
+        <!-- プロフィールセクション -->
+        <section id="profile" class="section">
+            <div class="container">
+                <h2 class="section-title">プロフィール</h2>
+                
+                <div class="card">
+                    <div class="profile-info">
+                        <h4>プロフィール</h4>
+                            <table id="prof" border="1">
+                                <!-- 
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                </tr> 
+                                -->
+                                <tr>
+                                    <th>性別</th>
+                                    <th>男</th>
+                                </tr>
+                                <tr>
+                                    <th>学年</th>
+                                    <th>専門1</th>
+                                </tr>
+                                <tr>
+                                    <th>身長</th>
+                                    <th>172cm</th>
+                                </tr>
+                                <tr>
+                                    <th>体重</th>
+                                    <th>52kg</th>
+                                </tr> 
+                                <tr>
+                                    <th>血液型</th>
+                                    <th>O型</th>
+                                </tr> 
+                                <tr>
+                                    <th>趣味</th>
+                                    <th>Linuxいじり・ゲーム・調べること</th>
+                                </tr> 
+                                <tr>
+                                    <th>苦手な事</th>
+                                    <th>長時間なにかすること</th>
+                                </tr> 
+                                <tr>
+                                    <th>好きな食べ物</th>
+                                    <th>マクドナルド</th>
+                                </tr> 
+                                <tr>
+                                    <th>好きなブラウザ</th>
+                                    <th>Firefox</th>
+                                </tr> 
+                                <tr>
+                                    <th>好きな検索エンジン</th>
+                                    <th>duckduckgo.com</th>
+                                </tr>
+                                <tr>
+                                    <th>好きなLinuxディストロ</th>
+                                    <th>EndeavorOS</th>
+                                </tr>
+                                <tr>
+                                    <th>座右の銘</th>
+                                    <th>Don't die. Until Even The Smallest Dream Comes True...</th>
+                                </tr>
+                            </table>
+                            <p>人間IQ初期値が低かったら努力しても人並みやねんアホで悪かったな</p>
+                        
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-value">700+</div>
+                                <div class="stat-label">総プレイ時間</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">4</div>
+                                <div class="stat-label">所持ゲーム数</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">1</div>
+                                <div class="stat-label">Web更新回数</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">1</div>
+                                <div class="stat-label">総作成ソフトウェア個数</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ゲーム詳細セクション -->
+        <section id="games" class="section">
+            <div class="container">
+                <h2 class="section-title">プレイゲーム詳細</h2>
+                
+                <div class="games-grid">
+                    <div class="card game-card">
+                        <div class="game-image">
+                            <img src="./img/narusio.png" alt="Wuthering-waves(鳴潮)">
+                        </div>
+                        <div class="game-info">
+                            <h3 class="game-title">Wuthering-waves(鳴潮)</h3>
+                            <p>今のところ一番ハマってるオープンワールドRPGゲーム。ツバキ推しである。運は微妙。
+                                <br> UID 711444601
+                            </p>
+                            <div class="game-badges">
+                                <span class="badge">オープンワールド</span>
+                                <span class="badge">RPG</span>
+                                <span class="badge">ガチャ</span>
+                            </div>
+                            <div class="game-stats">
+                                <span>ソラランク : 6</span>
+                                <span>ユニオンレベル: 50+</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card game-card">
+                        <div class="game-image">
+                            <img src="./img/horizon5.jpg" alt="Forza Horizon 5">
+                        </div>
+                        <div class="game-info">
+                            <h3 class="game-title">Forza Horizon 5</h3>
+                            <p>車オープンワールドゲーム画質はマジで綺麗。気長にドライブしたい時はこのゲームしてるかも。でもゲーム性なら The-crewの方がよかったかもしれない。</p>
+                            <div class="game-badges">
+                                <span class="badge">Car</span>
+                                <span class="badge">オープンワールド</span>
+                                <span class="badge">ドライブ</span>
+                            </div>
+                            <div class="game-stats">
+                                <span>プレイ時間: 10時間+</span>
+                                <span>null</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card game-card">
+                        <div class="game-image">
+                            <img src="./img/pcbs2.jpg" alt="ゲーム3">
+                        </div>
+                        <div class="game-info">
+                            <h3 class="game-title">PC Building Simulator 2</h3>
+                            <p>PC組み立てるだけのゲームなんだけど、たまに遊ぶとマジで面白いけど飽きやすい</p>
+                            <div class="game-badges">
+                                <span class="badge">アクション</span>
+                                <span class="badge">協力プレイ</span>
+                                <span class="badge">初心者</span>
+                            </div>
+                            <div class="game-stats">
+                                <span>プレイ時間: 35時間+</span>
+                                <span>実績数: 33/59</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card game-card">
+                        <div class="game-image">
+                            <img src="./img/Sims4.webp" alt="PC Building Simulator 2">
+                        </div>
+                        <div class="game-info">
+                            <h3 class="game-title">The Sims 4</h3>
+                            <p>昔有料ゲーだったsims4意外とダウンロードコンテンツ買わなくても日常生活はできるからまぁまぁ楽しい</p>
+                            <div class="game-badges">
+                                <span class="badge">生活</span>
+                                <span class="badge">シュミレーション</span>
+                                <span class="badge">sim</span>
+                            </div>
+                            <div class="game-stats">
+                                <span>プレイ時間: 30時間+</span>
+                                <span>null</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 企業ランキングセクション -->
+        <section id="companies" class="section">
+            <div class="container">
+                <h2 class="section-title">お気に入り企業・団体ランキング</h2>
+                
+                <div class="company-ranking">
+                    <div class="company-item">
+                        <div class="rank">1</div>
+                        <!-- <div class="company-logo">
+                            <i class="fas fa-trophy"></i>
+                        </div> -->
+                        <div class="company-info">
+                            <h3 class="company-name">Huawei ---➡️---</h3>
+                            <p class="company-reason">堂々たる第1位はHuawei!!!! Googleから嫌われたから0から何でも作ってる技術会社これはクレイジー！！</p>
+                        </div>
+                    </div>
+                    
+                    <div class="company-item">
+                        <div class="rank">2</div>
+                        <!-- <div class="company-logo">
+                            <i class="fas fa-gamepad"></i>
+                        </div> -->
+                        <div class="company-info">
+                            <h3 class="company-name">Mozilla ---🆕---</h3>
+                            <p class="company-reason">OSSで有名なfirefoxをリリースしてるコミュニティ団体。尊敬しかないよねー。ありがとうMozilla!!!</p>
+                        </div>
+                    </div>
+                    
+                    <div class="company-item">
+                        <div class="rank">3</div>
+                        <!-- <div class="company-logo">
+                            <i class="fas fa-rocket"></i>
+                        </div> -->
+                        <div class="company-info">
+                            <h3 class="company-name">Rakuten ---➡️---</h3>
+                            <p class="company-reason">楽天経済ってのもあるけど、ポイントと楽天モバイルのコスパはえぐい。どこで収益出てんだ会社の一つ。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="company-item">
+                        <div class="rank">4</div>
+                        <!-- <div class="company-logo">
+                            <i class="fas fa-star"></i>
+                        </div> -->
+                        <div class="company-info">
+                            <h3 class="company-name">Lenovo ---↘️---</h3>
+                            <p class="company-reason">個人的に一番好きなlaptopであるシンクパッドを作ってる会社。結構品質が良くてコストパフォーマンスが高い!</p>
+                        </div>
+                    </div>
+                    
+                    <div class="company-item">
+                        <div class="rank">5</div>
+                        <!-- <div class="company-logo">
+                            <i class="fas fa-crown"></i>
+                        </div> -->
+                        <div class="company-info">
+                            <h3 class="company-name">Samsung ---➡️---</h3>
+                            <p class="company-reason">日本だとGalaxyしかないけど、Galaxyのセキュリティと技術は凄いぞ...全体的に高品質。android界隈のiPhone</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- デバイス環境セクション -->
+        <section id="devices" class="section">
+            <div class="container">
+                <h2 class="section-title">使用デバイス環境</h2>
+                
+                <div class="devices-grid">
+                    <div class="card device-card">
+                        <div class="device-icon">
+                            <i class="fas fa-desktop"></i>
+                        </div>
+                        <h3 class="device-name">デスクトップPC</h3>
+                        <p>メインのゲーミングマシン</p>
+                        <div class="device-specs">
+                            <div class="spec-item">
+                                <span class="spec-label">CPU</span>
+                                <span class="spec-value">Intel Core i5-11400</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">GPU</span>
+                                <span class="spec-value">NVIDIA RTX 3060</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">RAM</span>
+                                <span class="spec-value">32GB DDR4</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">ストレージ</span>
+                                <span class="spec-value">ADATA M.2SSD 500GB</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">ストレージ</span>
+                                <span class="spec-value">Patriot M.2SSD 256GB</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card device-card">
+                        <div class="device-icon">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <h3 class="device-name">スマートフォン</h3>
+                        <p>メイン機のandroidスマートフォン日常生活から決済まで全部</p>
+                        <div class="device-specs">
+                            <div class="spec-item">
+                                <span class="spec-label">機種</span>
+                                <span class="spec-value">Xiaomi 11T Pro</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">ストレージ</span>
+                                <span class="spec-value">8GB/128GB</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Soc</span>
+                                <span class="spec-value">snapdragon 888</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">カラー</span>
+                                <span class="spec-value">メテオライトグレー</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card device-card">
+                        <div class="device-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <h3 class="device-name">タブレット</h3>
+                        <p>学校用兼色々</p>
+                        <div class="device-specs">
+                            <div class="spec-item">
+                                <span class="spec-label">機種</span>
+                                <span class="spec-value">Apple iPad gen9</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">ストレージ</span>
+                                <span class="spec-value">3GB/64GB</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Soc</span>
+                                <span class="spec-value">Apple A13 Bionic</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">カラー</span>
+                                <span class="spec-value">シルバー</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card device-card">
+                        <div class="device-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3 class="device-name">スマートウォッチ</h3>
+                        <p>メイン機</p>
+                        <div class="device-specs">
+                            <div class="spec-item">
+                                <span class="spec-label">機種</span>
+                                <span class="spec-value">HUAWEI Band 10 Aluminum Edition</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">センサー</span>
+                                <span class="spec-value">9-axis IMU sensor</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">防水</span>
+                                <span class="spec-value">5 ATM</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">カラー</span>
+                                <span class="spec-value">ホワイト</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- SNS/Discord招待セクション -->
+        <section id="social" class="section">
+            <div class="container">
+                <h2 class="section-title">SNS / Discord招待</h2>
+                
+                <div class="social-grid">
+                    <div class="card social-card twitter">
+                        <div class="social-icon">
+                            <i class="fab fa-twitter"></i>
+                        </div>
+                        <h3 class="social-name">X(旧Twitter)</h3>
+                        <p class="social-username">@Freedomhuri</p>
+                        <p>私の情報収集アカウント・ガジェットの意見などレスバ用アカウント</p>
+                        <a href="https://x.com/Freedomhuri" class="social-btn">フォローする</a>
+                    </div>
+                    
+                    <div class="card social-card discord">
+                        <div class="social-icon">
+                            <i class="fab fa-discord"></i>
+                        </div>
+                        <h3 class="social-name">Discord</h3>
+                        <p class="social-username">@hurisan_2006</p>
+                        <p>日常生活用Discordアカウント</p>
+                        <!-- <a href="#" class="social-btn">フォローする</a> -->
+                    </div>
+                    
+                    <div class="card social-card youtube">
+                        <div class="social-icon">
+                            <i class="fab fa-youtube"></i>
+                        </div>
+                        <h3 class="social-name">YouTube</h3>
+                        <p class="social-username">@freedomhuri-youtube</p>
+                        <p>ゲームプレイ動画やLinux系どうが気ままに不定期で更新中...</p>
+                        <a href="https://www.youtube.com/@freedomhuri-youtube" class="social-btn">チャンネル登録</a>
+                    </div>
+                    
+                    <div class="card social-card bluesky">
+                        <div class="social-icon">
+                            <i class="fab fa-bluesky"></i>
+                        </div>
+                        <h3 class="social-name">bluesky</h3>
+                        <p class="social-username">@freedomhuri.bsky.social</p>
+                        <p>SNS日常生活アカウント</p>
+                        <a href="https://bsky.app/profile/freedomhuri.bsky.social" class="social-btn">フォローする</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- ゴミ箱置き場（ダウンロードセクション） -->
+        <section id="trash" class="section">
+            <div class="container">
+                <h2 class="section-title">ゴミ置き場</h2>
+                
+                <div class="trash-container">
+                    <div class="trash-title">
+                        <i class="fas fa-recycle"></i>
+                        <h3>SOFTWARE_DOWNLOADS</h3>
+                        <p id="redtext">プログラムファイルの場合は自分自身でコンパイルしてください。</p>
+                    </div>
+                    
+                    <div class="downloads-grid">
+                        <div class="software-card">
+                            <span class="software-lang">Go</span>
+                            <h3 class="software-name">hello-world-Go</h3>
+                            <p class="software-description">Go言語でのHello-World</p>
+                            <div class="software-meta">
+                                <span>サイズ: 83B</span>
+                                <span>更新: 2025/05/8</span>
+                            </div>
+                            <a href="go/test.go" download="test.go" class="download-btn">DOWNLOAD <i class="fas fa-download"></i></a>
+                        </div>
+                        
+                        <!-- <div class="software-card">
+                            <span class="software-lang">Python</span>
+                            <h3 class="software-name">statTracker_beta</h3>
+                            <p class="software-description">複数のゲームのプレイ統計を追跡・分析するツール。進捗やスキル向上の可視化が可能。</p>
+                            <div class="software-meta">
+                                <span>サイズ: 4.7MB</span>
+                                <span>更新: 2025/04/02</span>
+                            </div>
+                            <a href="#" class="download-btn">DOWNLOAD <i class="fas fa-download"></i></a>
+                        </div>
+                        
+                        <div class="software-card">
+                            <span class="software-lang">Rust</span>
+                            <h3 class="software-name">keyMapper_pro</h3>
+                            <p class="software-description">高度なキーマッピングツール。マクロ作成、複合入力、プロファイル切替などの機能。</p>
+                            <div class="software-meta">
+                                <span>サイズ: 6.2MB</span>
+                                <span>更新: 2025/03/28</span>
+                            </div>
+                            <a href="#" class="download-btn">DOWNLOAD <i class="fas fa-download"></i></a>
+                        </div>
+                        
+                        <div class="software-card">
+                            <span class="software-lang">Go</span>
+                            <h3 class="software-name">netOptimizer</h3>
+                            <p class="software-description">ネットワーク接続を最適化し、ゲームのping値を改善するツール。ルーティング最適化機能付き。</p>
+                            <div class="software-meta">
+                                <span>サイズ: 3.1MB</span>
+                                <span>更新: 2025/04/10</span>
+                            </div>
+                            <a href="#" class="download-btn">DOWNLOAD <i class="fas fa-download"></i></a>
+                        </div> -->
+                    </div>
+                    
+                    <div class="terminal">
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">user@furil-inux:~$</span>
+                            <span class="terminal-command">sudo furi -Syu</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-output">パッケージアップデートを実行中...</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-output">依存関係を確認中...</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-output">セットアップ完了!正常にアップデートされました。</span>
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">user@furil-inux:~$</span>
+                            <span class="terminal-command blink">_</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- フッター -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-text">© 2025 freedomhuri All rights reserved.</p>
+            <!-- <div class="footer-links">
+                <a href="#" class="footer-link">プライバシーポリシー</a>
+                <a href="#" class="footer-link">お問い合わせ</a>
+                <a href="#" class="footer-link">利用規約</a>
+            </div> -->
+        </div>
+    </footer>
+    
+    <script>
+        // スムーズスクロール
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+        
+        // アクティブなナビゲーションアイテムのハイライト
+        window.addEventListener('scroll', () => {
+            let current = '';
+            
+            document.querySelectorAll('section').forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            document.querySelectorAll('nav a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // 言語切り替え機能
+document.addEventListener('DOMContentLoaded', function() {
+    const currentLanguage = document.querySelector('.current-language');
+    const languageOptions = document.querySelector('.language-options');
+    
+    // クリックでも表示切り替え可能に
+    currentLanguage.addEventListener('click', function() {
+        languageOptions.style.display = languageOptions.style.display === 'block' ? 'none' : 'block';
+    });
+    
+    // メニュー以外をクリックすると閉じる
+    document.addEventListener('click', function(event) {
+        if (!event.target.closest('.language-switcher')) {
+            languageOptions.style.display = 'none';
+        }
+    });
+});
+    </script>
+</body>
+</html>

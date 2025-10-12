@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <title>FuriProfile</title>
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="FuriProfile" />
+    <meta property="og:description" content="Furisanの細かいプロフィール" />
+    <meta property="og:url" content="https://hurisan0909.github.io/huriprofile/" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #06b6d4;
+            --secondary: #a855f7;
+            --accent: #ec4899;
+            --bg-dark: #0f172a;
+            --bg-darker: #020617;
+            --text-primary: #ffffff;
+            --text-secondary: #cbd5e1;
+            --text-muted: #64748b;
+            --border-color: #334155;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #020617 100%);
+            color: var(--text-primary);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* Grid Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(0deg, transparent 24%, rgba(255,255,255,.05) 25%, rgba(255,255,255,.05) 26%, transparent 27%, transparent 74%, rgba(255,255,255,.05) 75%, rgba(255,255,255,.05) 76%, transparent 77%, transparent),
+                linear-gradient(90deg, transparent 24%, rgba(255,255,255,.05) 25%, rgba(255,255,255,.05) 26%, transparent 27%, transparent 74%, rgba(255,255,255,.05) 75%, rgba(255,255,255,.05) 76%, transparent 77%, transparent);
+            background-size: 50px 50px;
+            opacity: 0.1;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Animated Background Orbs */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 25% 25%, rgba(6, 182, 212, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 75% 50%, rgba(168, 85, 247, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 50% 75%, rgba(236, 72, 153, 0.15) 0%, transparent 50%);
+            animation: orbs 15s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes orbs {
+            0%, 100% {
+                filter: blur(100px);
+            }
+            50% {
+                filter: blur(120px);
+            }
+        }
+
+        .mouse-glow {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.3), transparent);
+            filter: blur(60px);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Header */
+        header {
+            padding: 48px 0 32px;
+            border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .header-left {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .welcome-tag {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .welcome-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #06b6d4, #a855f7);
+            animation: pulse 2s infinite;
+        }
+
+        .welcome-text {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            color: #06b6d4;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font-size: 72px;
+            font-weight: 900;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #ffffff 0%, #06b6d4 50%, #a855f7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+
+        .bio {
+            font-size: 18px;
+            color: var(--text-secondary);
+            font-weight: 300;
+            letter-spacing: 0.5px;
+        }
+
+        .lang-switch {
+            display: flex;
+            gap: 8px;
+        }
+
+        .lang-btn {
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid transparent;
+            cursor: pointer;
+            position: relative;
+            transition: color 0.3s;
+            text-transform: uppercase;
+            border-radius: 4px;
+        }
+
+        .lang-btn.active {
+            color: var(--text-primary);
+            background: rgba(6, 182, 212, 0.15);
+            border: 1px solid rgba(6, 182, 212, 0.5);
+        }
+
+        .lang-btn:hover {
+            color: var(--text-primary);
+            border-color: rgba(6, 182, 212, 0.3);
+        }
+
+        .lang-btn::before {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #06b6d4, #a855f7);
+            transition: width 0.3s;
+        }
+
+        .lang-btn.active::before {
+            width: 100%;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 48px;
+            flex-wrap: wrap;
+            border-left: 2px solid rgba(51, 65, 85, 0.5);
+            padding-left: 24px;
+        }
+
+        .tab-btn {
+            padding: 12px 0;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            position: relative;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .tab-btn.active {
+            color: var(--text-primary);
+        }
+
+        .tab-number {
+            font-size: 12px;
+            letter-spacing: 1px;
+            color: #06b6d4;
+            opacity: 0.7;
+            font-weight: 300;
+        }
+
+        .tab-btn.active .tab-number {
+            opacity: 1;
+        }
+
+        .tab-btn::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #06b6d4, #a855f7);
+            transition: width 0.3s;
+        }
+
+        .tab-btn.active::after {
+            width: 100%;
+        }
+
+        /* Content */
+        .content {
+            min-height: 500px;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: slideInUp 0.5s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Profile Section */
+        .profile-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(51, 65, 85, 0.5);
+            border-radius: 16px;
+            padding: 48px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.5), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .profile-card:hover {
+            border-color: rgba(51, 65, 85, 0.7);
+        }
+
+        .profile-card:hover::before {
+            opacity: 1;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+        }
+
+        @media (max-width: 768px) {
+            .profile-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+        }
+
+        .profile-item {
+            margin-bottom: 32px;
+        }
+
+        .profile-label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            color: rgba(6, 182, 212, 0.7);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .profile-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .profile-value-small {
+            font-size: 18px;
+        }
+
+        .profile-right {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .info-box {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid rgba(51, 65, 85, 0.5);
+            border-radius: 8px;
+            padding: 16px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .info-box:hover {
+            border-color: rgba(6, 182, 212, 0.5);
+            background: rgba(6, 182, 212, 0.1);
+            transform: scale(1.05);
+        }
+
+        .info-box-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .info-icon {
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .info-label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .info-value {
+            font-size: 16px;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        /* Grid Sections */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(51, 65, 85, 0.5);
+            border-radius: 12px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.5), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .card:hover {
+            border-color: rgba(51, 65, 85, 0.7);
+            transform: translateY(-4px);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-emoji {
+            font-size: 40px;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .card-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+        }
+
+        .social-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(51, 65, 85, 0.5);
+            border-radius: 12px;
+            padding: 32px 24px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .social-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .social-card:hover {
+            border-color: rgba(51, 65, 85, 0.7);
+            transform: translateY(-8px);
+        }
+
+        .social-card:hover::before {
+            opacity: 1;
+        }
+
+        .social-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+
+        .social-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* Service List */
+        .service-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .service-item {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(51, 65, 85, 0.5);
+            border-radius: 12px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .service-item::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #06b6d4, #a855f7);
+            transition: width 0.5s;
+        }
+
+        .service-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .service-item:hover::before {
+            width: 100%;
+        }
+
+        .service-item:hover::after {
+            opacity: 1;
+        }
+
+        .service-item:hover {
+            border-color: rgba(51, 65, 85, 0.7);
+            transform: translateX(12px);
+        }
+
+        .service-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .service-emoji {
+            font-size: 32px;
+        }
+
+        .service-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .service-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .service-arrow {
+            font-size: 24px;
+            color: var(--text-muted);
+            transition: all 0.3s;
+        }
+
+        .service-item:hover .service-arrow {
+            color: var(--text-primary);
+            transform: translateX(4px);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 80px;
+            padding: 32px 0;
+            border-top: 1px solid rgba(51, 65, 85, 0.5);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        .footer-text {
+            font-size: 14px;
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+
+        .footer-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #06b6d4;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 48px;
+            }
+
+            .profile-card {
+                padding: 32px;
+            }
+
+            .tabs {
+                border-left: none;
+                border-top: 2px solid rgba(51, 65, 85, 0.5);
+                padding-left: 0;
+                padding-top: 24px;
+            }
+
+            .tab-btn::after {
+                bottom: -26px;
+            }
+
+            .tab-btn.active::after {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="mouse-glow" id="mouseGlow"></div>
+
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="header-left">
+                    <div class="welcome-tag">
+                        <div class="welcome-dot"></div>
+                        <span class="welcome-text">Welcome to FuriProfile</span>
+                    </div>
+                    <h1 id="userName">Furisan</h1>
+                    <p class="bio" id="userBio">初心者エンジニア / Linux-user</p>
+                </div>
+                <div class="lang-switch">
+                    <button class="lang-btn active" data-lang="ja">日本語</button>
+                    <button class="lang-btn" data-lang="en">English</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="profile">
+                <span class="tab-number">01</span>
+                <span id="tab-profile-label">Profile</span>
+            </button>
+            <button class="tab-btn" data-tab="devices">
+                <span class="tab-number">02</span>
+                <span id="tab-devices-label">Devices in use</span>
+            </button>
+            <button class="tab-btn" data-tab="social">
+                <span class="tab-number">03</span>
+                <span id="tab-social-label">SNS</span>
+            </button>
+            <button class="tab-btn" data-tab="services">
+                <span class="tab-number">04</span>
+                <span id="tab-services-label">My Service</span>
+            </button>
+        </div>
+
+        <div class="content">
+            <!-- Profile Section -->
+            <section class="section active" data-section="profile">
+                <div class="profile-card">
+                    <div class="profile-grid">
+                        <div class="profile-left">
+                            <div class="profile-item">
+                                <div class="profile-label" id="label-name">Name</div>
+                                <div class="profile-value" id="fullName">Furi</div>
+                            </div>
+                            <div class="profile-item">
+                                <div class="profile-label" id="label-bio">~/.MYpolicy.conf</div>
+                                <div class="profile-value profile-value-small" id="about">いかなる時でも「責任」が発生する。<br>自分の道は、誰にも決められない。<br>自分の道は自分で決めるべきだ。<br>なぜならあなたはrootだから。<br>誰にも変更できないんだ。</div>
+                            </div>
+                        </div>
+                        <div class="profile-right">
+                            <div class="info-box">
+                                <div class="info-box-header">
+                                    <span class="info-icon">🌐</span>
+                                    <span class="info-label" id="label-email">Language</span>
+                                </div>
+                                <div class="info-value" id="email">Japanese</div>
+                            </div>
+                            <div class="info-box">
+                                <div class="info-box-header">
+                                    <span class="info-icon">📍</span>
+                                    <span class="info-label" id="label-location">Location</span>
+                                </div>
+                                <div class="info-value" id="location">Yamagata, Japan</div>
+                            </div>
+                            <div class="info-box">
+                                <div class="info-box-header">
+                                    <span class="info-icon">😎</span>
+                                    <span class="info-label" id="label-exp">Age</span>
+                                </div>
+                                <div class="info-value" id="experience">19 years</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Devices Section -->
+            <section class="section" data-section="devices">
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="card-emoji">🖥️</div>
+                        <div class="card-title">Desktop PC</div>
+                        <div class="card-subtitle">i5-11400 | RTX 3060 | RAM-32GB | Windows11Home</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-emoji">📱</div>
+                        <div class="card-title">iPad gen 9</div>
+                        <div class="card-subtitle">iPadOS 26</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-emoji">📲</div>
+                        <div class="card-title">Xiaomi 11T Pro</div>
+                        <div class="card-subtitle">Xiaomi HyperOS 1</div>
+                    </div>
+                    <div class="card">
+                        <div class="card-emoji">🎧</div>
+                        <div class="card-title">Redomi Buds 4 Pro</div>
+                        <div class="card-subtitle"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Social Section -->
+            <section class="section" data-section="social">
+                <div class="grid-3">
+                    <a href="https://x.com/Freedomhuri" target="_blank" rel="noopener noreferrer" class="social-card">
+                        <div class="social-icon">𝕏</div>
+                        <div class="social-name">X (Twitter)</div>
+                    </a>
+                    <a href="https://github.com/Hurisan0909" target="_blank" rel="noopener noreferrer" class="social-card">
+                        <div class="social-icon">🐈</div>
+                        <div class="social-name">GitHub</div>
+                    </a>
+                    <a href="https://bsky.app/profile/freedomhuri.bsky.social" target="_blank" rel="noopener noreferrer" class="social-card">
+                        <div class="social-icon">🦋</div>
+                        <div class="social-name">Bluesky</div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Services Section -->
+            <section class="section" data-section="services">
+                <div class="service-list">
+                    <!-- <a href="https://example.com/portfolio" target="_blank" rel="noopener noreferrer" class="service-item">
+                        <div class="service-left">
+                            <div class="service-emoji">🎨</div>
+                            <div class="service-info">
+                                <div class="service-label">Service</div>
+                                <div class="service-name" data-ja="ポートフォリオ" data-en="Portfolio">ポートフォリオ</div>
+                            </div>
+                        </div>
+                        <div class="service-arrow">→</div>
+                    </a> -->
+                    <a href="https://hurisan0909.github.io/FurisanCLI/" target="_blank" rel="noopener noreferrer" class="service-item">
+                        <div class="service-left">
+                            <div class="service-emoji">⚙️</div>
+                            <div class="service-info">
+                                <div class="service-label">Tool</div>
+                                <div class="service-name" data-ja="My-CLI-Tools" data-en="My-CLI-Tools">My-CLI-Tools</div>
+                            </div>
+                        </div>
+                        <div class="service-arrow">→</div>
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-text">© 2025 FuriCLI. All rights reserved.</p>
+                <div class="footer-status">
+                    <div class="status-dot"></div>
+                    <span> With great power comes great responsibility. by sudo 3</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const content = {
+            ja: {
+                userName: "Furisan",
+                userBio: "初心者エンジニア / Linux-user",
+                fullName: "Furi",
+                about: "いかなる時でも「責任」が発生する。自分の道は、誰にも決められない。自分の道は自分で決めるべきだ。なぜならあなたはrootだから。誰にも変更できないんだ。",
+                language: "Japanese",
+                location: "Yamagata, Japan",
+                age: "19 years",
+                tab_profile: "プロフィール",
+                tab_devices: "使用デバイス",
+                tab_social: "ソーシャルメディア",
+                tab_services: "マイサービス",
+                label_name: "Name",
+                label_bio: "About me",
+                label_language: "language",
+                label_location: "Location",
+                label_age: "age"
+            },
+            en: {
+                userName: "Furisan",
+                userBio: "Beginner Engineer / Linux-user",
+                fullName: "Furi",
+                about: "Responsibility exists in every situation. No one can decide your path for you. You should choose your own way. Because you are root — and no one can change that.",
+                language: "Japanese",
+                location: "Yamagata, Japan",
+                age: "19 years",
+                tab_profile: "Profile",
+                tab_devices: "Devices",
+                tab_social: "Social Media",
+                tab_services: "My Services",
+                label_name: "Name",
+                label_bio: "About me",
+                label_language: "language",
+                label_location: "Location",
+                label_age: "age"
+            }
+        };
+
+        // Mouse follow glow
+        const mouseGlow = document.getElementById('mouseGlow');
+        document.addEventListener('mousemove', (e) => {
+            mouseGlow.style.left = (e.clientX - 150) + 'px';
+            mouseGlow.style.top = (e.clientY - 150) + 'px';
+            mouseGlow.style.display = 'block';
+        });
+
+        // Language switching
+        let currentLang = 'ja';
+        const langBtns = document.querySelectorAll('.lang-btn');
+        langBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lang = btn.dataset.lang;
+                if (lang !== currentLang) {
+                    currentLang = lang;
+                    langBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    updateLanguage(lang);
+                }
+            });
+        });
+
+        function updateLanguage(lang) {
+            const c = content[lang];
+            document.getElementById('userName').textContent = c.userName;
+            document.getElementById('userBio').textContent = c.userBio;
+            document.getElementById('fullName').textContent = c.fullName;
+            document.getElementById('about').textContent = c.about;
+            document.getElementById('language').textContent = c.language;
+            document.getElementById('location').textContent = c.location;
+            document.getElementById('experience').textContent = c.experience;
+            
+            document.getElementById('tab-profile-label').textContent = c.tab_profile;
+            document.getElementById('tab-devices-label').textContent = c.tab_devices;
+            document.getElementById('tab-social-label').textContent = c.tab_social;
+            document.getElementById('tab-services-label').textContent = c.tab_services;
+            
+            document.getElementById('label-name').textContent = c.label_name;
+            document.getElementById('label-bio').textContent = c.label_bio;
+            document.getElementById('label-language').textContent = c.label_language;
+            document.getElementById('label-location').textContent = c.label_location;
+            document.getElementById('label-exp').textContent = c.label_exp;
+
+            // Update service names
+            document.querySelectorAll('.service-name').forEach(el => {
+                const text = el.dataset[lang];
+                if (text) el.textContent = text;
+            });
+
+            // Update footer
+            const footerText = document.querySelector('.footer-text');
+            if (lang === 'ja') {
+                footerText.textContent = '© 2025 田中太郎. All rights reserved.';
+                document.querySelector('.footer-status span').textContent = 'プロジェクト募集中';
+            } else {
+                footerText.textContent = '© 2025 Taro Tanaka. All rights reserved.';
+                document.querySelector('.footer-status span').textContent = 'AVAILABLE FOR PROJECTS';
+            }
+        }
+
+        // Tab switching
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const sections = document.querySelectorAll('.section');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabName = btn.dataset.tab;
+                
+                // Update active tab
+                tabBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // Update active section
+                sections.forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.querySelector(`[data-section="${tabName}"]`).classList.add('active');
+            });
+        });
+    </script>

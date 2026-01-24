@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="FuriProfile" />
+    <meta property="og:description" content="FuriCLI-Terminal フリさんのターミナル風プロフィールサイト" />
+    <meta property="og:url" content="https://hurisan0909.github.io/huriprofile/" />
+    <title>FuriCLI - Terminal</title>
+    <style>
+        :root {
+            --bg-color: rgba(0, 0, 0, 0.88); 
+            --text-color: #00ff41; 
+            --header-bg: rgba(35, 38, 41, 0.95);
+            --accent-color: #00ff41;
+            --font-family: 'Fira Code', 'Courier New', Courier, monospace;
+        }
+
+        body {
+            background: #000;
+            color: var(--text-color);
+            font-family: var(--font-family);
+            margin: 0;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* JavaScript無効時の警告アラート (KDE通知風) */
+        .noscript-alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 320px;
+            background: rgba(43, 15, 15, 0.95);
+            border: 1px solid #ff5555;
+            color: #ff9999;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            z-index: 9999;
+            font-size: 13px;
+            border-left: 5px solid #ff5555;
+        }
+
+        /* ハッカーモード用キャンバス */
+        #hacker-canvas {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; pointer-events: none; opacity: 0.5;
+        }
+
+        /* 共通ウィンドウ設定 */
+        .window {
+            background: var(--bg-color);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid #444;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.9);
+            position: absolute;
+        }
+
+        .terminal { width: 85%; max-width: 850px; height: 75vh; z-index: 10; }
+
+        .window-header {
+            height: 40px; display: flex; justify-content: space-between; align-items: center;
+            padding: 0 15px; border-radius: 11px 11px 0 0; border-bottom: 1px solid #111;
+            cursor: grab; user-select: none; color: #eee; font-size: 13px;
+        }
+        .window-header:active { cursor: grabbing; }
+        .terminal-header { background: var(--header-bg); }
+
+        .controls { display: flex; gap: 12px; }
+        .controls span { color: #888; font-size: 14px; }
+
+        .lang-switch {
+            cursor: pointer; border: 1px solid var(--text-color); color: var(--text-color);
+            padding: 2px 10px; font-size: 11px; border-radius: 4px;
+        }
+
+        .terminal-body { flex: 1; padding: 25px; overflow-y: auto; scrollbar-width: thin; }
+
+        .cursor {
+            display: inline-block; width: 10px; height: 1.2em; background: var(--text-color);
+            animation: blink 1s infinite; vertical-align: middle;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        .prompt::before { content: "user@Furi-ProMax:~$ "; color: #666; }
+
+        nav { margin: 20px 0; display: flex; flex-wrap: wrap; gap: 8px; }
+
+        button {
+            background: rgba(0, 255, 65, 0.05); border: 1px solid #333; color: var(--text-color);
+            font-family: var(--font-family); padding: 5px 12px; cursor: pointer; font-size: 13px;
+        }
+        button:hover { border-color: var(--text-color); background: rgba(0, 255, 65, 0.1); }
+        button.active { background: var(--text-color); color: #000; font-weight: bold; }
+
+        #content-area { margin-top: 25px; line-height: 1.7; opacity: 0; font-size: 14px; }
+        .fade-in { animation: fadeIn 0.4s forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .ext-link { color: #fff; text-decoration: underline; cursor: pointer; display: inline-block; transition: transform 0.2s; }
+        .ext-link:hover { color: var(--text-color); transform: scale(1.05); }
+
+        /* 警告モーダル */
+        #modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); display: none; z-index: 100;
+        }
+        .modal { width: 420px; border: 1px solid #ff5555; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+        .modal-header { background: #441111; color: #ff5555; font-weight: bold; }
+        .modal-body { padding: 25px; color: #eee; font-size: 14px; line-height: 1.5; }
+        .modal-footer { padding: 15px; display: flex; justify-content: flex-end; gap: 10px; background: rgba(0,0,0,0.3); }
+        .btn-confirm { background: #ff5555; color: white; border: none; padding: 6px 20px; cursor: pointer; }
+        .btn-cancel { background: #444; color: white; border: none; padding: 6px 20px; cursor: pointer; }
+
+        .logo { font-size: 26px; font-weight: bold; margin-bottom: 5px; color: #fff; }
+        .username { color: #888; font-size: 13px; margin-bottom: 20px; }
+        .code-block { color: #a2fca2; white-space: pre; }
+    </style>
+</head>
+<body>
+
+<noscript>
+    <div class="noscript-alert">
+        <strong>⚠️ System Error</strong><br>
+        JavaScript is disabled. This terminal requires JS to execute shell commands and animations.
+    </div>
+</noscript>
+
+<canvas id="hacker-canvas"></canvas>
+
+<div id="modal-overlay">
+    <div class="window modal" id="draggable-modal">
+        <div class="window-header modal-header" id="modal-header">
+            <span id="warn-title">SECURITY WARNING</span>
+            <div class="controls"><span>✕</span></div>
+        </div>
+        <div class="modal-body">
+            <span id="warn-msg"></span><br><br>
+            <span id="target-url" style="color: #ff5555; font-size: 12px; word-break: break-all;"></span>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-cancel" onclick="closeModal()" id="btn-abort">ABORT</button>
+            <button class="btn-confirm" id="confirm-btn">PROCEED</button>
+        </div>
+    </div>
+</div>
+
+<div class="window terminal" id="draggable-terminal">
+    <div class="window-header terminal-header" id="terminal-header">
+        <div class="lang-switch" onclick="toggleLanguage(event)" id="langBtn">English</div>
+        <div class="window-title">FuriCLI-Terminal — bash</div>
+        <div class="controls">
+            <span>−</span>
+            <span>▢</span>
+            <span style="color: #ff5555;">✕</span>
+        </div>
+    </div>
+
+    <div class="terminal-body">
+        <div class="logo">Welcome to FuriCLI-System</div>
+        <div class="username">SESSION: <span id="display-name">Guest? JavaScript is disabled</span></div>
+        
+        <nav>
+            <button onclick="showSection('about')">cat profile.txt</button>
+            <button onclick="showSection('philosophy')">cat philosophy.md</button>
+            <button onclick="showSection('java')">cat Main.java</button>
+            <button onclick="showSection('sns')">ls ./social</button>
+            <button onclick="showSection('services')">ls ./projects</button>
+            <button onclick="showSection('skills')">./skills.sh</button>
+            <button onclick="showSection('peripherals')">hwinfo</button>
+            <button id="hacker-btn" onclick="toggleHackerMode()">sudo ./hacker.sh</button>
+        </nav>
+
+        <div class="command-line">
+            <span class="prompt"></span><span id="typing-command"></span><span class="cursor"></span>
+        </div>
+
+        <div id="content-area"></div>
+    </div>
+</div>
+
+<script>
+    // --- ドラッグ機能共通化 ---
+    function makeDraggable(windowEl, headerEl) {
+        let isDragging = false;
+        let offset = { x: 0, y: 0 };
+        headerEl.addEventListener('mousedown', (e) => {
+            if(e.target.className === 'lang-switch') return;
+            isDragging = true;
+            const rect = windowEl.getBoundingClientRect();
+            windowEl.style.left = rect.left + 'px';
+            windowEl.style.top = rect.top + 'px';
+            windowEl.style.transform = 'none';
+            windowEl.style.margin = '0';
+            offset.x = e.clientX - rect.left;
+            offset.y = e.clientY - rect.top;
+        });
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            windowEl.style.left = (e.clientX - offset.x) + 'px';
+            windowEl.style.top = (e.clientY - offset.y) + 'px';
+        });
+        document.addEventListener('mouseup', () => isDragging = false);
+    }
+    makeDraggable(document.getElementById('draggable-terminal'), document.getElementById('terminal-header'));
+    makeDraggable(document.getElementById('draggable-modal'), document.getElementById('modal-header'));
+
+    // --- ハッカーモード (色分け・高速) ---
+    const canvas = document.getElementById('hacker-canvas');
+    const ctx = canvas.getContext('2d');
+    let hackerActive = false;
+    let logUpdateInterval;
+
+    const logPool = {
+        green: [
+            "kernel: [102.45] Started Session 12 of user root.",
+            "systemd[1]: Created slice User Slice of UID 1000.",
+            "dbus-daemon[512]: [system] Successfully activated service 'org.freedesktop.NM'",
+            "kernel: [102.88] eth0: Link is up at 1000 Mbps, full duplex",
+            "nginx[882]: 127.0.0.1 - - [GET /index.html HTTP/1.1] 200 1524",
+            "dhcpcd[441]: eth0: leased 192.168.1.15 for 86400 seconds"
+        ],
+        yellow: [
+            "WARNING: [sshd] Possible brute-force attack from 185.12.3.4 (15 attempts)",
+            "sudo: user : TTY=pts/0 ; PWD=/home/user ; USER=root ; COMMAND=/usr/bin/vi /etc/shadow",
+            "kernel: [104.12] TCP: Possible SYN flooding on port 443. Sending cookies."
+        ],
+        red: [
+            "ERROR: [kernel] Fatal exception in interrupt at 0xffffffff810a42f1",
+            "Kernel panic - not syncing: VFS: Unable to mount root fs on unknown-block(0,0)",
+            "SECURITY: [sshd] ROOT LOGIN ATTEMPTED from 1.2.3.4 via ssh2 - REJECTED"
+        ]
+    };
+
+    let screenLogs = []; 
+    const fontSize = 12;
+    let maxLines = 0;
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        maxLines = Math.floor(canvas.height / fontSize);
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function updateLogs() {
+        const batchSize = Math.floor(Math.random() * 4) + 2; 
+        for(let i=0; i<batchSize; i++) {
+            const rand = Math.random() * 100;
+            let logType = 'green', color = '#00ff41';
+            if (rand < 5) { logType = 'red'; color = '#ff5555'; }
+            else if (rand < 20) { logType = 'yellow'; color = '#ffcc00'; }
+            const now = new Date().toISOString().substring(11, 23);
+            const msg = logPool[logType][Math.floor(Math.random() * logPool[logType].length)];
+            screenLogs.push({ text: `[${now}] ${msg}`, color: color });
+        }
+        while (screenLogs.length > maxLines) screenLogs.shift();
+        drawLogs();
+    }
+
+    function drawLogs() {
+        if (!hackerActive) return;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.font = `${fontSize}px 'Fira Code', monospace`;
+        screenLogs.forEach((log, index) => {
+            ctx.fillStyle = log.color;
+            ctx.fillText(log.text, 10, canvas.height - ((screenLogs.length - 1 - index) * fontSize) - 10);
+        });
+    }
+
+    function toggleHackerMode() {
+        hackerActive = !hackerActive;
+        const btn = document.getElementById('hacker-btn');
+        if (hackerActive) {
+            btn.classList.add('active');
+            logUpdateInterval = setInterval(updateLogs, 25);
+        } else {
+            btn.classList.remove('active');
+            clearInterval(logUpdateInterval);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            screenLogs = [];
+        }
+    }
+
+    // --- 多言語データ・コンテンツ ---
+    let currentLang = 'jp';
+    const data = {
+        jp: {
+            username: "user@furi-desktop",
+            about: ">> 概要\n名前 := フリさん\n性別 := 男\n年齢 := 19歳\n職業 := 専門学生\n国籍 := 日本\n\n\n プライバシーは平等に守られるべきであり、プライバシーは基本的人権です。",
+            philosophy: ">> 思想\n> 1.自由なシステムを好みます。\n> 2.安全で透明なシステムを好みます。\n> 3.自分の道は自分で定義します。\n> 4.人の道は他人に決める権利はありません。\n> 5.プライバシーは基本的人権です。\n > 6.無料でソフトを使い自分が無料で提供する",
+            java: "public class Main {\n    public static void main(String[] args) {\n        System.out.println(\"HelloJava.\");\n        System.out.println(\"© 2025 FuriCLI. All rights reserved.\");    }\n}",
+            sns: ">> SNS Links\n- <span class='ext-link' onclick='openWarning(\"https://x.com/Freedomhuri\")'>Twitter / X</span>\n- <span class='ext-link' onclick='openWarning(\"https://github.com/Hurisan0909\")'>GitHub</span>\n- <span class='ext-link'>Discord - @hurisan_2006</span>",
+            services: ">> Projects\n- <span class='ext-link' onclick='openWarning(\"https://note.com/huri_note\")'>note.com</span>\n- <span class='ext-link' onclick='openWarning(\"https://qiita.com/Furisan\")'>qiita.com</span>",
+            skills: ">> Skills\n [プログラミング言語] - Java / Python / HTML / CSS\n [Linux] - Linuxコマンド / I USE Arch BTW",
+            peripherals: ">> マイデバイス\n- MainPC -> i5-11400 | RTX 3060 | RAM-32GB | Linux-EndeavorOS-KDEPlasma \n\n - MainPhone -> Xiaomi 11T Pro | Snapdragon 888 | HyperOS 1 \n\n- Tablet -> iPad Gen9 | iPadOS 26 \n\n- SubPhone -> iPhone 8 | iOS 14.3",
+            btnLang: "English", warnTitle: "⚠️ セキュリティ警告", warnMsg: "外部のウェブサイトに移動しようとしています。続行しますか？", btnConfirm: "続行", btnAbort: "中止"
+        },
+        en: {
+            username: "user@furi-desktop",
+            about: "//Translated by ChatGPT.\n >> Overview\nName := Furi-san\nGender := Male\nAge := 19 years old\nOccupation := Vocational school student\nNationality := Japan\n\nPrivacy should be protected equally, and privacy is a fundamental human right.",
+            philosophy: "//Translated by ChatGPT.\nThoughts\n> 1. I prefer free systems.\n> 2. I prefer safe and transparent systems.\n> 3. I define my own path.\n> 4. No one has the right to decide another person’s path.\n> 5. Privacy is a fundamental human right.\n> 6. I use software for free and provide my own work for free.",
+            java: "public class Main {\n    public static void main(String[] args) {\n        System.out.println(\"HelloJava.\");\n        System.out.println(\"© 2025 FuriCLI. All rights reserved.\");    }\n}",
+            sns: ">> SNS Links\n- <span class='ext-link' onclick='openWarning(\"https://x.com/Freedomhuri\")'>Twitter / X</span>\n- <span class='ext-link' onclick='openWarning(\"https://github.com/Hurisan0909\")'>GitHub</span>\n- <span class='ext-link'>Discord - @hurisan_2006</span>",
+            services: ">> Projects\n- <span class='ext-link' onclick='openWarning(\"https://note.com/huri_note\")'>note.com</span>\n- <span class='ext-link' onclick='openWarning(\"https://qiita.com/Furisan\")'>qiita.com</span>",
+            skills: "//Translated by Deepl.com\n>> Skills\n [Programming language] - Java / Python / HTML / CSS\n [Linux] - LinuxCommand / I USE Arch BTW",
+            peripherals: ">> My device\n - MainPC -> i5-11400 | RTX 3060 | RAM-32GB | Linux-EndeavorOS-KDEPlasma \n\n - MainPhone -> Xiaomi 11T Pro | Snapdragon 888 | HyperOS 1 \n\n- Tablet -> iPad Gen9 | iPadOS 26 \n\n- SubPhone -> iPhone 8 | iOS 14.3",
+            btnLang: "日本語", warnTitle: "⚠️ SECURITY WARNING", warnMsg: "You are about to leave this terminal for an external website. Proceed?", btnConfirm: "PROCEED", btnAbort: "ABORT"
+        }
+    };
+
+    function openWarning(url) {
+        const modal = document.getElementById('modal-overlay');
+        const langData = data[currentLang];
+        document.getElementById('warn-title').innerText = langData.warnTitle;
+        document.getElementById('warn-msg').innerText = langData.warnMsg;
+        document.getElementById('btn-abort').innerText = langData.btnAbort;
+        document.getElementById('confirm-btn').innerText = langData.btnConfirm;
+        document.getElementById('target-url').innerText = url;
+        modal.style.display = 'block';
+        document.getElementById('confirm-btn').onclick = () => { window.open(url, '_blank'); closeModal(); };
+    }
+    function closeModal() { document.getElementById('modal-overlay').style.display = 'none'; }
+    function toggleLanguage(e) {
+        e.stopPropagation();
+        currentLang = currentLang === 'jp' ? 'en' : 'jp';
+        document.getElementById('langBtn').innerText = data[currentLang].btnLang;
+        document.getElementById('display-name').innerText = data[currentLang].username;
+        document.getElementById('content-area').innerHTML = "";
+    }
+    async function showSection(key) {
+        const contentArea = document.getElementById('content-area');
+        const typingCmd = document.getElementById('typing-command');
+        const commands = { about: "cat profile.txt", philosophy: "cat philosophy.md", java: "cat Main.java", sns: "ls ./social", services: "ls ./projects", skills: "./skills.sh", peripherals: "hwinfo" };
+        contentArea.classList.remove('fade-in'); contentArea.innerHTML = ""; typingCmd.innerText = "";
+        const cmdText = commands[key];
+        for (let i = 0; i < cmdText.length; i++) {
+            typingCmd.innerText += cmdText[i]; await new Promise(r => setTimeout(r, 40));
+        }
+        setTimeout(() => {
+            let content = data[currentLang][key];
+            contentArea.innerHTML = (key === 'java') ? `<div class="code-block">${content}</div>` : content.replace(/\n/g, '<br>');
+            contentArea.classList.add('fade-in');
+        }, 150);
+    }
+    document.getElementById('display-name').innerText = data[currentLang].username;
+</script>
+
+</body>
+</html>
